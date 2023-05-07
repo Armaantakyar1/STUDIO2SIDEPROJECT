@@ -9,6 +9,7 @@ public class Follower : MonoBehaviour
     [SerializeField] float SteeringSpeed = 1f;
     [SerializeField] float MaxSpeed = 5f;
     private float currentSpeed;
+    [SerializeField] float speed;
 
     private void Start()
     {
@@ -17,24 +18,23 @@ public class Follower : MonoBehaviour
     }
     void Update()
     {
-        AddSteeringForce();
-
-        var speed = CalculateMaxSpeed(MaxSpeed);
-        LimitSpeed(speed);
+        AddForce();
+        CalculateMaxSpeed();
+        LimitSpeed();
     }
-    private float CalculateMaxSpeed(float speed)
+    private float CalculateMaxSpeed()
     {
         float distance = Vector3.Distance(Target.transform.position, this.transform.position);
         return speed;
     }
-    private void LimitSpeed(float speed)
+    private void LimitSpeed()
     {
         if (rb.velocity.magnitude > speed)
         {
             rb.velocity = rb.velocity.normalized * speed;
         }
     }
-    private void AddSteeringForce()
+    private void AddForce()
     {
         Vector3 Direction = Target.transform.position - transform.position;
         Direction = Direction.normalized;
